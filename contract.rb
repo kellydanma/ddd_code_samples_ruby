@@ -1,8 +1,13 @@
 require 'securerandom'
+require 'pry'
 
 require_relative './product'
 
 class Contract
+  # Magic number = 0.8 - 80%? of the contract purchase price? covered product purchase price?
+  # contract lifecycle - dates and status; We're not sure what it is yet.
+  CONTRACT_PURCHASE_PERCENTAGE = 0.8
+
   attr_reader   :id # unique id
   attr_reader   :purchase_price
   attr_reader   :covered_product
@@ -26,5 +31,11 @@ class Contract
   # Equality for entities is based on unique id
   def ==(other)
     self.id == other.id
+  end
+
+
+  def limit_of_liability
+    claim_total = claims.inject(0){ |total, claim| total + claim.amount }
+    (purchase_price - claim_total) * CONTRACT_PURCHASE_PERCENTAGE
   end
 end

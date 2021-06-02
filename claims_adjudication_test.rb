@@ -26,6 +26,22 @@ class ClaimsAdjudicationTest < Test::Unit::TestCase
     assert_equal Date.new(2010, 5, 8), contract.claims.first.date
   end
 
+  def test_claims_adjudication_for_multiple_claims
+    contract = fake_contract
+    claim_1 = Claim.new(29.0, Date.new(2010, 5, 8))
+    contract.claims << claim_1
+
+    claim_2 = Claim.new(50.0, Date.new(2010, 7, 9))
+    claims_adjudication = ClaimsAdjudication.new
+    claims_adjudication.adjudicate(contract, claim_2)
+
+    assert_equal 2, contract.claims.length
+    assert_equal 29.0, contract.claims.first.amount
+    assert_equal Date.new(2010, 5, 8), contract.claims.first.date
+    assert_equal 50.0, contract.claims[1].amount
+    assert_equal Date.new(2010, 7, 9), contract.claims[1].date
+  end
+
   def test_claims_adjudication_for_invalid_claim_amount
     contract = fake_contract
     claim = Claim.new(81.0, Date.new(2010, 5, 8))
