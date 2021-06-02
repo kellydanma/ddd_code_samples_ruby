@@ -1,5 +1,4 @@
 require 'securerandom'
-require 'pry'
 
 require_relative './product'
 
@@ -42,7 +41,6 @@ class Contract
   end
 
   def valid_for?(date)
-    binding.pry
     date >= terms_and_conditions.effective_date && 
     date <= terms_and_conditions.expiration_date
   end
