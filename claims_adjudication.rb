@@ -12,15 +12,23 @@ require 'date'
 
 class ClaimsAdjudication
   def adjudicate(contract, new_claim)
-    claim_total = 0.0
-    contract.claims.each { |claim|
-      claim_total += claim.amount
-    }
-    if (contract.purchase_price - claim_total) * 0.8 > new_claim.amount &&
+    if limit_of_liability(contract) > new_claim.amount &&
       new_claim.date  >= contract.effective_date &&
       new_claim.date  <= contract.expiration_date &&
       contract.status == "ACTIVE"
       contract.claims << new_claim
     end
+  end
+
+  # We should move this to the contract class
+  # Should the limit of liability be calculated pre-claim
+  # Magic number = 0.8 - 80%? of the contract purchase price? covered product purchase price?
+  # contract lifecycle - dates and status
+  def limit_of_liability(contract)
+    claim_total = 0.0
+    contract.claims.each { |claim|
+      claim_total += claim.amount
+    }
+    (contract.purchase_price - claim_total) * 0.8
   end
 end
