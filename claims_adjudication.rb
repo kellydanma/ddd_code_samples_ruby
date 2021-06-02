@@ -13,9 +13,9 @@ require 'date'
 class ClaimsAdjudication
   def adjudicate(contract, new_claim)
     if contract.limit_of_liability > new_claim.amount &&
-      new_claim.date  >= contract.effective_date &&
-      new_claim.date  <= contract.expiration_date &&
+      contract.valid_for?(new_claim.date) &&
       contract.status == "ACTIVE"
+
       contract.claims << new_claim
     end
   end

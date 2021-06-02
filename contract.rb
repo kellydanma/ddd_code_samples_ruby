@@ -12,7 +12,8 @@ class Contract
   attr_reader   :purchase_price
   attr_reader   :covered_product
 
-  attr_accessor :status
+  attr_accessor :status # We don't know when the status should be set. What does it represent?
+                        # What other statuses are available?
   attr_accessor :effective_date
   attr_accessor :expiration_date
   attr_accessor :purchase_date
@@ -33,9 +34,12 @@ class Contract
     self.id == other.id
   end
 
-
   def limit_of_liability
     claim_total = claims.inject(0){ |total, claim| total + claim.amount }
     (purchase_price - claim_total) * CONTRACT_PURCHASE_PERCENTAGE
+  end
+
+  def valid_for?(date)
+    date >= effective_date && date <= expiration_date
   end
 end
