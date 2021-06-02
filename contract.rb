@@ -14,19 +14,16 @@ class Contract
 
   attr_accessor :status # We don't know when the status should be set. What does it represent?
                         # What other statuses are available?
-  attr_accessor :effective_date
-  attr_accessor :expiration_date
-  attr_accessor :purchase_date
-  attr_accessor :in_store_guarantee_days
 
   attr_accessor :claims
 
-  def initialize(purchase_price, covered_product)
+  def initialize(purchase_price, covered_product, terms_and_conditions)
     @id                 = SecureRandom.uuid
     @purchase_price     = purchase_price
     @status             = "PENDING"
     @covered_product    = covered_product
     @claims             = Array.new
+    @terms_and_conditions = terms_and_conditions
   end
 
   # Equality for entities is based on unique id
@@ -40,6 +37,7 @@ class Contract
   end
 
   def valid_for?(date)
-    date >= effective_date && date <= expiration_date
+    date >= terms_and_conditions.effective_date && 
+    date <= terms_and_conditions.expiration_date
   end
 end
