@@ -8,6 +8,10 @@ class Contract
   # contract lifecycle - dates and status; We're not sure what it is yet.
   CONTRACT_PURCHASE_PERCENTAGE = 0.8
 
+  ACTIVE_STATUS     = "ACTIVE"
+  PENDING_STATUS    = "PENDING"
+  TERMINATED_STATUS = "TERMINATED"
+
   attr_reader   :id # unique id
   attr_reader   :purchase_price
   attr_reader   :covered_product
@@ -21,7 +25,7 @@ class Contract
   def initialize(purchase_price, covered_product, terms_and_conditions)
     @id                 = SecureRandom.uuid
     @purchase_price     = purchase_price
-    @status             = "PENDING"
+    @status             = PENDING_STATUS
     @covered_product    = covered_product
     @claims             = Array.new
     @terms_and_conditions = terms_and_conditions
