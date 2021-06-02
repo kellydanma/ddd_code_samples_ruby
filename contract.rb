@@ -11,6 +11,7 @@ class Contract
   attr_reader   :id # unique id
   attr_reader   :purchase_price
   attr_reader   :covered_product
+  attr_reader   :terms_and_conditions
 
   attr_accessor :status # We don't know when the status should be set. What does it represent?
                         # What other statuses are available?
@@ -37,6 +38,7 @@ class Contract
   end
 
   def valid_for?(date)
+    binding.pry
     date >= terms_and_conditions.effective_date && 
     date <= terms_and_conditions.expiration_date
   end

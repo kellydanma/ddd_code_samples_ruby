@@ -31,10 +31,10 @@ class ContractTest < Test::Unit::TestCase
 
   def default_terms_and_conditions
     TermsAndConditions.new(
-      effective_date: Date.new(2021, 1, 1),
-      expiration_date: Date.new(2022, 12, 31),
-      purchase_date: Date.new(2020, 12, 25),
-      in_store_guarantee_days: 30
+      Date.new(2010, 5, 8),
+      Date.new(2012, 5, 8),
+      Date.new(2009, 12, 25),
+      30
     )
   end
 end
