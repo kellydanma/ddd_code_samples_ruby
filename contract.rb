@@ -1,6 +1,7 @@
 require_relative './product'
 require_relative './terms_and_conditions'
 require_relative './subscription_renewed'
+require_relative './customer_reimbursement_requested'
 
 class Contract
   attr_reader   :id # unique id
@@ -39,6 +40,11 @@ class Contract
   def extend_annual_subscription
     @terms_and_conditions = @terms_and_conditions.annually_extended
     @events << SubscriptionRenewed.new(id, "Automatic Annual Renewal")
+  end
+
+  def terminate(representative_name, reason)
+    @terms_and_conditions = @terms_and_conditions.fulfill
+    @events << CustomerReimbursementRequested.new(id, representative_name, reason)
   end
 
   def ==(other)
